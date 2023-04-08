@@ -1,21 +1,34 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, RouteObject, useRoutes } from "react-router-dom";
+import { ROUTES } from "../constants/endpoints";
 import { Layout } from "../layout";
-import { Header } from "../layout/Header";
+import { NotFoundPage } from "../pages/notfound";
 import { Signin } from "../pages/signin";
 import { Signup } from "../pages/signup";
 
-export const router = createBrowserRouter([
+const allRoutes: RouteObject[] = [
   {
-    path: "/",
-    element: <Layout />,
+    path: ROUTES.HOME,
+    element: (
+      <Layout>
+        <Signin />
+      </Layout>
+    ),
   },
   {
-    path: "/signup",
-    element: <Signup />,
-  },
-
-  {
-    path: "/signin",
+    path: ROUTES.SIGNIN,
     element: <Signin />,
   },
-]);
+  {
+    path: ROUTES.SIGNOUT,
+    element: <Signup />,
+  },
+  {
+    path: "/*",
+    element: <NotFoundPage />, //404 is handled in inbox component
+  },
+];
+
+export default function Router() {
+  const route = useRoutes(allRoutes);
+  return route;
+}

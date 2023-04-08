@@ -1,3 +1,9 @@
+import { Box } from "@mui/material";
+
 export function Signin() {
-  return <div>Signin</div>;
+  return (
+    <Box component="section" mt={3}>
+      <div>Sigin</div>
+    </Box>
+  );
 }
