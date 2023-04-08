@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { getIDfromToken } from "../../helpers/getIDfromToken";
-import { User } from "../models";
+import { Events, User } from "../models";
+import Joi, { ValidationError } from "joi";
+
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
@@ -31,6 +33,11 @@ const UserProfile = (req: Request | any, res: Response) => {
     }
   });
 };
+
+const getAllUsers = async (req: Request, res: Response) => {
+  const allusers = await User.find().lean().exec();
+  res.status(200).json({ data: allusers });
+};
 const UserUpdate = async (req: Request | any, res: Response) => {
   const user_id = getIDfromToken(req);
   console.log("user_id", user_id);
@@ -53,4 +60,79 @@ const UserUpdate = async (req: Request | any, res: Response) => {
     user: user,
   });
 };
-export { UserProfile, UserUpdate };
+
+const createUser = async (req: Request, res: Response) => {
+  try {
+    await createUserSchema.validateAsync(req.body);
+    const user = new User(req.body);
+    const result = await user.save();
+    res.status(201).json(result);
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      res.status(400).json({ error: error.message });
+    }
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// subscribe user to the event
+const subscribeUserToEvent = async (req: Request, res: Response) => {
+  try {
+    await subscribeUserToEventValidation.validateAsync(req.query);
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        _id: req.query.id,
+      },
+      { $push: { subscribedEvents: req.query.event_id } },
+      { new: true }
+    );
+
+    console.log("updated user", updatedUser);
+
+    res.status(201).json({ data: updatedUser });
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: "internal server error", obj: err });
+    }
+  }
+};
+
+const subscribeUserToEventValidation = Joi.object({
+  id: Joi.string().required(),
+  event_id: Joi.string().required(),
+});
+
+const createUserSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  mobile: Joi.string()
+    .regex(/^\d{10}$/)
+    .required(),
+  password: Joi.string().required(),
+});
+
+const getAllEventsForUser = async (req: Request, res: Response) => {
+  const allEventIds = await User.findById(req.params.id).select(
+    "subscribedEvents"
+  );
+  const allEventsData = await Promise.all(
+    allEventIds.subscribedEvents.map(async (eventId) => {
+      const event = await Events.findById(eventId);
+      return event;
+    })
+  );
+
+  res.status(200).json({ data: allEventsData });
+};
+
+export {
+  UserProfile,
+  UserUpdate,
+  createUser,
+  subscribeUserToEvent,
+  getAllUsers,
+  getAllEventsForUser,
+};

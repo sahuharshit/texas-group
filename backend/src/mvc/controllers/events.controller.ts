@@ -43,7 +43,6 @@ const deleteEvent = async (req: Request, res: Response) => {
     const eventId = req.params.id;
     const event = await Events.deleteOne(eventId);
 
-    console.log("event not found", event);
     if (event) {
       res.status(200).json({ message: "Event deleted successfully" });
     } else {
