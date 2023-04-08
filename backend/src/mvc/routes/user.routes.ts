@@ -1,7 +1,7 @@
-import express from 'express';
-import { userController } from '../controllers';
-import { auth, userAuth } from '../middlewares';
-import { Routes } from './routesStrings';
+import express from "express";
+import { userController } from "../controllers";
+import { auth, userAuth } from "../middlewares";
+import { Routes } from "./routesStrings";
 
 const router = express.Router();
 
