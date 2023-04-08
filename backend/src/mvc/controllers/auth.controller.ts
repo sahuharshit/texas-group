@@ -1,9 +1,8 @@
-import { Request, Response } from 'express';
-import { transStrings } from '../../init/locales';
-import { User } from '../models';
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
- 
+import { Request, Response } from "express";
+import { User } from "../models";
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+
 const UserLogin = (req: Request | any, res: Response) => {
   return User.findOne({
     email: req.body.mobile,
@@ -13,23 +12,22 @@ const UserLogin = (req: Request | any, res: Response) => {
     if (!user) {
       res.status(403).json({
         success: false,
-        message: req.i18n.t('simpleStringWithVariable', {
-          variable1: '3',
-          variable2: '3',
+        message: req.i18n.t("simpleStringWithVariable", {
+          variable1: "3",
+          variable2: "3",
         }),
       });
     } else if (user) {
- 
       bcrypt.compare(req.body.password, user.password, function (err, compRes) {
         if (!compRes) {
           res.status(403).json({
             success: false,
-            message: 'Ops! wrong Password!',
+            message: "Ops! wrong Password!",
           });
         } else {
           const payload = {
             id: user._id,
-            role: 'user',
+            role: "user",
           };
           const token = jwt.sign(payload, process.env.JWT_KEY);
           User.findById(user._id, function (err, result) {
@@ -64,30 +62,28 @@ const UserRegister = (req: Request | any, res: Response) => {
         .then(() => {
           const payload = {
             id: user._id,
-            roleL: 'user',
+            roleL: "user",
           };
 
           const signtoken = jwt.sign(payload, process.env.JWT_KEY);
           res.status(200).send({
             success: true,
-            message: req.t(transStrings.registeredsuccessfully, {
-              name: user.name,
-            }),
+            message: { name: user.name },
             user: user,
             token: signtoken,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           res.status(400).send({
             success: false,
-            message: req.t(transStrings.useralreadyexists),
+            message: "User Already Exists",
             error: err,
           });
         })
     : res.status(500).send({
         success: false,
-        message: 'Check your data',
+        message: "Check your data",
         error: {},
       });
 };
