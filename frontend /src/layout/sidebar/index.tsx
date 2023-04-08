@@ -7,7 +7,12 @@ import {
 } from "@mui/material";
 import { Wrapper } from "../index.style";
 
-const leftSidebarMenuOptions = ["Option1", "Option2", "Option3", "Option4"];
+const leftSidebarMenuOptions = [
+  "All Events",
+  "Add New Event",
+  "Attendees",
+  "Logout",
+];
 export const Sidebar = () => {
   return (
     <Wrapper>
