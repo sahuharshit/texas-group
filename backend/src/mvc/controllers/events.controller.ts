@@ -1,19 +1,18 @@
 import { Request, Response } from "express";
 import { Events } from "../models";
 import Joi, { ValidationError } from "joi";
+import { createEventSchemaJoiValidation } from "./validations/events.validation";
 
 const getAllEvents = async (req: Request, res: Response) => {
   const getAllEvents = await Events.find().lean().exec();
   res.send(getAllEvents).end();
 };
 
-// can put validations away from the logic
-const createEventSchemaJoiValidation = Joi.object({
-  event_name: Joi.string().required(),
-  event_location: Joi.string().required(),
-  event_date: Joi.date().required(),
-});
-
+/**
+ * @desc Create an Event
+ * @param req
+ * @param res
+ */
 const createEvent = async (req: Request, res: Response) => {
   try {
     // check for validation
@@ -38,6 +37,11 @@ const createEvent = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @desc Delete a particular event by ID
+ * @param req
+ * @param res
+ */
 const deleteEvent = async (req: Request, res: Response) => {
   try {
     const eventId = req.params.id;

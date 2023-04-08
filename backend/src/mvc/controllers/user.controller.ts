@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { getIDfromToken } from "../../helpers/getIDfromToken";
 import { Events, User } from "../models";
-import Joi, { ValidationError } from "joi";
+import { ValidationError } from "joi";
+import {
+  createUserSchema,
+  subscribeUserToEventValidation,
+} from "./validations/user.validation";
 
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
@@ -38,6 +42,7 @@ const getAllUsers = async (req: Request, res: Response) => {
   const allusers = await User.find().lean().exec();
   res.status(200).json({ data: allusers });
 };
+
 const UserUpdate = async (req: Request | any, res: Response) => {
   const user_id = getIDfromToken(req);
   console.log("user_id", user_id);
@@ -100,24 +105,16 @@ const subscribeUserToEvent = async (req: Request, res: Response) => {
   }
 };
 
-const subscribeUserToEventValidation = Joi.object({
-  id: Joi.string().required(),
-  event_id: Joi.string().required(),
-});
-
-const createUserSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  mobile: Joi.string()
-    .regex(/^\d{10}$/)
-    .required(),
-  password: Joi.string().required(),
-});
-
+/**
+ * @desc This function will get All the events that are subscribed by the user
+ * @param req Request Object of Express
+ * @param res Response Object of Express
+ */
 const getAllEventsForUser = async (req: Request, res: Response) => {
   const allEventIds = await User.findById(req.params.id).select(
     "subscribedEvents"
   );
+
   const allEventsData = await Promise.all(
     allEventIds.subscribedEvents.map(async (eventId) => {
       const event = await Events.findById(eventId);
