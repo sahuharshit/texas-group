@@ -1,6 +1,7 @@
 import { Navigate, RouteObject, useRoutes } from "react-router-dom";
 import { ROUTES } from "../constants/endpoints";
 import { Layout } from "../layout";
+import { EventPage } from "../pages/events";
 import { NotFoundPage } from "../pages/notfound";
 import { Signin } from "../pages/signin";
 import { Signup } from "../pages/signup";
@@ -10,7 +11,7 @@ const allRoutes: RouteObject[] = [
     path: ROUTES.HOME,
     element: (
       <Layout>
-        <Signin />
+        <EventPage />
       </Layout>
     ),
   },

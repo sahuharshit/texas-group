@@ -4,7 +4,7 @@ export function Header() {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6">My App</Typography>
+        <Typography variant="h6">Northeastern University</Typography>
       </Toolbar>
     </AppBar>
   );
