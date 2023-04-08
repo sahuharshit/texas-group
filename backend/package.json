@@ -1,5 +1,5 @@
 {
-  "name": "small-business-backend",
+  "name": "northeaster-university",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
@@ -12,8 +12,7 @@
     "uin": "npm uninstall --save"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NourAliAbdou/express-typescript-mongoose-boilerplate.git"
+    "type": "git"
   },
   "keywords": [
     "node",
@@ -23,12 +22,7 @@
     "js",
     "ts"
   ],
-  "author": "Nour Abdou",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NourAliAbdou/express-typescript-mongoose-boilerplate/issues"
-  },
-  "homepage": "https://github.com/NourAliAbdou/express-typescript-mongoose-boilerplate#readme",
   "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",

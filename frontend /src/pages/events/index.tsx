@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import EventCard, { IEventCard } from "../../components/card";
+import { getEvents } from "../../redux/events/thunk";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { EventCardContainer, EventContainer } from "./style";
 
 const events: IEventCard[] = [
@@ -89,17 +92,24 @@ const events: IEventCard[] = [
 ];
 
 export function EventPage() {
+  const { eventList } = useAppSelector((state) => state.event);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getEvents());
+  }, []);
+
   return (
     <>
       <EventContainer>
-        {events.map((event) => {
+        {eventList?.map((event) => {
           return (
             <EventCardContainer>
               <EventCard
-                buttonText={event.buttonText}
-                description={event.description}
-                imgUrl={event.imgUrl}
-                title={event.title}
+                buttonText={event.event_location}
+                description={event.event_date}
+                imgUrl={events[0].imgUrl}
+                title={event.event_name}
               />
             </EventCardContainer>
           );
