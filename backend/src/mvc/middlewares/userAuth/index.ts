@@ -1,4 +1,4 @@
-import { User } from '../../models';
+import { User } from "../../models";
 
 const userAuth = async (req, res, next) => {
   const user = await User.findOne({
@@ -10,11 +10,11 @@ const userAuth = async (req, res, next) => {
     return res.status(403).send({
       success: false,
       unAuthorized: true,
-      message: 'Unauthorized',
+      message: "Unauthorized",
     });
   else {
     const data = user.toObject();
-    data.role = 'user';
+    data.role = "user";
 
     req.user = data;
     next();

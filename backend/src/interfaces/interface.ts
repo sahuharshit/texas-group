@@ -9,4 +9,5 @@ interface IUser {
   mobile: String;
   password: String;
 }
+
 export { IDBType, ISchemaType, IUser };

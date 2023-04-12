@@ -1,3 +1,4 @@
+import { toUpper } from "lodash";
 import { useEffect } from "react";
 import EventCard, { IEventCard } from "../../components/card";
 import { getEvents } from "../../redux/events/thunk";
@@ -106,10 +107,10 @@ export function EventPage() {
           return (
             <EventCardContainer>
               <EventCard
-                buttonText={event.event_location}
-                description={event.event_date}
+                buttonText="Register Here"
+                description={`${event.event_date} at ${event.event_location}`}
                 imgUrl={events[0].imgUrl}
-                title={event.event_name}
+                title={toUpper(event.event_name)}
               />
             </EventCardContainer>
           );

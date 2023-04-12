@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box } from "@mui/material";
+import { Box, ListItemText } from "@mui/material";
 
 export const Wrapper = styled(Box)`
   height: 100%;
@@ -63,4 +63,11 @@ export const Wrapper = styled(Box)`
       }
     }
   }
+`;
+
+export const CustomMenuItem = styled(ListItemText)`
+  :hover {
+    background: #f4f4f4;
+  }
+  cursor: pointer;
 `;

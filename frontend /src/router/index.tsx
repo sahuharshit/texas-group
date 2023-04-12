@@ -1,6 +1,7 @@
 import { Navigate, RouteObject, useRoutes } from "react-router-dom";
 import { ROUTES } from "../constants/endpoints";
 import { Layout } from "../layout";
+import { Attendees } from "../pages/attendees";
 import { EventPage } from "../pages/events";
 import { EventForm } from "../pages/events/createEvent";
 import { NotFoundPage } from "../pages/notfound";
@@ -21,6 +22,14 @@ const allRoutes: RouteObject[] = [
     element: (
       <Layout>
         <EventForm />
+      </Layout>
+    ),
+  },
+  {
+    path: ROUTES.ATTENDEES,
+    element: (
+      <Layout>
+        <Attendees />
       </Layout>
     ),
   },
