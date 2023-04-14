@@ -7,8 +7,9 @@ import { EventForm } from "../pages/events/createEvent";
 import { NotFoundPage } from "../pages/notfound";
 import { EventDetail } from "../pages/public/eventdetails";
 import { Homepage } from "../pages/public/homepage";
+import { HomepageFooter } from "../pages/public/homepage/footer";
 import { HomepageHeader } from "../pages/public/homepage/Header";
-import { Signin } from "../pages/signin";
+import { SignIn } from "../pages/signin";
 import { Signup } from "../pages/signup";
 
 const allRoutes: RouteObject[] = [
@@ -22,6 +23,7 @@ const allRoutes: RouteObject[] = [
       <>
         <HomepageHeader />
         <EventDetail />
+        <HomepageFooter />
       </>
     ),
   },
@@ -43,7 +45,7 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.SIGNIN,
-    element: <Signin />,
+    element: <SignIn />,
   },
   {
     path: ROUTES.SIGNOUT,
