@@ -5,6 +5,7 @@ import { Attendees } from "../pages/attendees";
 import { EventPage } from "../pages/events";
 import { EventForm } from "../pages/events/createEvent";
 import { NotFoundPage } from "../pages/notfound";
+import { Contact } from "../pages/public/contact";
 import { EventDetail } from "../pages/public/eventdetails";
 import { Homepage } from "../pages/public/homepage";
 import { HomepageFooter } from "../pages/public/homepage/footer";
@@ -46,6 +47,16 @@ const allRoutes: RouteObject[] = [
   {
     path: ROUTES.SIGNIN,
     element: <SignIn />,
+  },
+  {
+    path: "/contact",
+    element: (
+      <>
+        <HomepageHeader></HomepageHeader>
+        <Contact />
+        <HomepageFooter />
+      </>
+    ),
   },
   {
     path: ROUTES.SIGNOUT,
