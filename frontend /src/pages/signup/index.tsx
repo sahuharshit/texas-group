@@ -12,6 +12,7 @@ import { LoadingButton } from "@mui/lab";
 
 import LoginImage from "./loginImage.png";
 import { ErrorMessage, LoginForm, LoginIntro, Wrapper } from "./style";
+import axios from "axios";
 
 const Signup = () => {
   const [loginPayload, setLoginPayload] = useState({
@@ -19,6 +20,28 @@ const Signup = () => {
     password: "",
     name: "",
   });
+
+  function handleServerResponse(msg: string) {
+    alert(msg);
+  }
+
+  const handleOnSubmit = (e: any) => {
+    e.preventDefault();
+    axios({
+      method: "POST",
+      url: "https://formspree.io/f/xlekozvl",
+      data: {
+        email: loginPayload.email,
+        message: `A new user with the email : ${loginPayload.email} and the name : ${loginPayload.name} created`,
+      },
+    })
+      .then((response) => {
+        handleServerResponse("Thank you, your message has been submitted.");
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
 
   const handleFormChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -60,7 +83,7 @@ const Signup = () => {
                   required
                   fullWidth
                   id="name"
-                  name="fullname"
+                  name="name"
                   autoComplete="name"
                   value={loginPayload.name}
                   onChange={handleFormChange}
@@ -99,7 +122,9 @@ const Signup = () => {
                 <LoadingButton
                   loading={false}
                   variant="contained"
-                  onClick={() => {}}
+                  onClick={(e) => {
+                    handleOnSubmit(e);
+                  }}
                   type="submit"
                 >
                   Sign up

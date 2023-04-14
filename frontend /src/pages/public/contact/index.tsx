@@ -44,7 +44,7 @@ export function Contact() {
     e.preventDefault();
     axios({
       method: "POST",
-      url: "https://formspree.io/f/mrgvojdz",
+      url: "https://formspree.io/f/xyyabovd",
       data: { ...formPayload, message: value },
     })
       .then((response) => {
