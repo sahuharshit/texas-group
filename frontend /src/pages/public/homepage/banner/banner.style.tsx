@@ -2,7 +2,7 @@ import { styled } from "@mui/material";
 import Slider from "react-slick";
 
 export const EnhancedSlider = styled(Slider)`
-  width: 60%;
+  width: 80%;
   z-index: 99;
 `;
 

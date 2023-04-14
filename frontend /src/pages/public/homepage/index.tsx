@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { HeroBanner } from "./Banner";
+import { HeroBanner } from "./banner/Banner";
 import { HomepageEventCard } from "./card/EventCard";
 import { eventCardsData } from "./card/eventCardData";
 import { HomepageFooter } from "./footer";

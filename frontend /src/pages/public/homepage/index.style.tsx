@@ -5,5 +5,5 @@ export const CardsWrapper = styled("div")`
   flex-wrap: wrap;
   max-width: 80%;
   margin: auto;
-  justify-content: center;
+  padding-left: 5rem;
 `;

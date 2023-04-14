@@ -9,7 +9,7 @@ import {
   MusicNoteOutlined,
   SportsBarOutlined,
 } from "@mui/icons-material";
-import { Chip } from "@mui/material";
+import { Chip, Typography } from "@mui/material";
 
 const chipContent = [
   { label: "Music", avatar: <MusicNoteOutlined /> },
@@ -25,6 +25,9 @@ const chipContent = [
 export function TrendingCategories() {
   return (
     <div style={{ margin: "0 0 1rem 21rem" }}>
+      <Typography fontSize={"1.3rem"} fontWeight="500" mb={3}>
+        Check out trending categories
+      </Typography>
       {chipContent.map((chip) => {
         return (
           <span style={{ margin: "0 25px 0 0", cursor: "pointer" }}>
