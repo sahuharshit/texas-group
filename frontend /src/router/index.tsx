@@ -5,16 +5,24 @@ import { Attendees } from "../pages/attendees";
 import { EventPage } from "../pages/events";
 import { EventForm } from "../pages/events/createEvent";
 import { NotFoundPage } from "../pages/notfound";
+import { EventDetail } from "../pages/public/eventdetails";
+import { Homepage } from "../pages/public/homepage";
+import { HomepageHeader } from "../pages/public/homepage/Header";
 import { Signin } from "../pages/signin";
 import { Signup } from "../pages/signup";
 
 const allRoutes: RouteObject[] = [
   {
     path: ROUTES.HOME,
+    element: <Homepage />,
+  },
+  {
+    path: "/events/details/:id",
     element: (
-      <Layout>
-        <EventPage />
-      </Layout>
+      <>
+        <HomepageHeader />
+        <EventDetail />
+      </>
     ),
   },
   {
