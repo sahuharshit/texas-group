@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import Slider from "react-slick";
-import { EnhancedSlider, SliderWrapper } from "../homepage/banner.style";
+import { EnhancedSlider, SliderWrapper } from "../homepage/banner/banner.style";
 import { CustomBox } from "./index.style";
 export function EventDetail() {
   const settings = {
