@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 
 const UserLogin = (req: Request | any, res: Response) => {
   return User.findOne({
-    email: req.body.mobile,
+    email: req.body.email,
   }).then(function (user: any, err: any) {
     if (err) throw err;
 
@@ -38,7 +38,6 @@ const UserLogin = (req: Request | any, res: Response) => {
                 id: result._id,
                 name: result.name,
                 email: result.email,
-                mobile: result.mobile,
               },
             });
           });
@@ -51,7 +50,6 @@ const UserRegister = (req: Request | any, res: Response) => {
   const user = new User({
     name: req.body.name,
     email: req.body.email,
-    mobile: req.body.mobile,
     password: req.body.password,
     created_at: new Date(),
   });

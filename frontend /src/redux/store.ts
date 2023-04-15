@@ -1,11 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import event from "./events/reducer";
+import app from "./app/reducer";
+
 import clients from "./clients/reducer";
 export const store = configureStore({
   reducer: {
     event,
     clients,
+    app,
   },
 });
 

@@ -11,7 +11,7 @@ import Grid from "@mui/material/Grid";
 import { LoadingButton } from "@mui/lab";
 
 import LoginImage from "./loginImage.png";
-import { ErrorMessage, LoginForm, LoginIntro, Wrapper } from "./style";
+import { LoginForm, LoginIntro, Wrapper } from "./style";
 
 const SignIn = () => {
   const [loginPayload, setLoginPayload] = useState({ email: "", password: "" });

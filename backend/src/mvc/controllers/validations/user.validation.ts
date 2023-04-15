@@ -8,8 +8,5 @@ export const subscribeUserToEventValidation = Joi.object({
 export const createUserSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
-  mobile: Joi.string()
-    .regex(/^\d{10}$/)
-    .required(),
   password: Joi.string().required(),
 });

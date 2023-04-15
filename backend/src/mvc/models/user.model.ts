@@ -8,7 +8,6 @@ const saltRounds = 10;
 const schema = CreateSchema({
   name: { type: String },
   email: { type: String, unique: true, lowercase: true },
-  mobile: { type: String, unique: true },
   password: { type: String },
   subscribedEvents: {
     type: Array<String>,

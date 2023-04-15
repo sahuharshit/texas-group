@@ -13,6 +13,11 @@ import { LoadingButton } from "@mui/lab";
 import LoginImage from "./loginImage.png";
 import { ErrorMessage, LoginForm, LoginIntro, Wrapper } from "./style";
 import axios from "axios";
+import { useAppDispatch } from "../../redux/store";
+import { IClient, ICreateClientPayload } from "../../redux/clients/thunk";
+import { FetchUtils } from "../../utils/fetchUtils";
+import { useNavigate } from "react-router-dom";
+import { isLoggedInTrue, setAppUser } from "../../redux/app/reducer";
 
 const Signup = () => {
   const [loginPayload, setLoginPayload] = useState({
@@ -21,12 +26,20 @@ const Signup = () => {
     name: "",
   });
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   function handleServerResponse(msg: string) {
     alert(msg);
   }
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = async (e: any) => {
     e.preventDefault();
+
+    const signupRequest = await FetchUtils.postRequest<
+      ICreateClientPayload,
+      IClient
+    >("/user", loginPayload);
+
     axios({
       method: "POST",
       url: "https://formspree.io/f/xlekozvl",
@@ -41,6 +54,10 @@ const Signup = () => {
       .catch((error) => {
         console.log("error", error);
       });
+
+    dispatch(isLoggedInTrue(true));
+    dispatch(setAppUser(signupRequest));
+    navigate("/");
   };
 
   const handleFormChange = (

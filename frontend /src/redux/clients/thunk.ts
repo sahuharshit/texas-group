@@ -11,6 +11,12 @@ export interface IClient {
   subscribedEvents: string[];
 }
 
+export interface ICreateClientPayload {
+  email: string;
+  name: string;
+  password: string;
+}
+
 export const getAllClients = createAsyncThunk<IClient[]>(
   "getEvents",
   async (_, { rejectWithValue }) => {

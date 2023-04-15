@@ -6,7 +6,6 @@ type ISchemaType = typeof mongoose.Schema;
 interface IUser {
   name: String;
   email: String;
-  mobile: String;
   password: String;
 }
 

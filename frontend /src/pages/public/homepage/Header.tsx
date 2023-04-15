@@ -13,10 +13,14 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { isLoggedInTrue } from "../../../redux/app/reducer";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export function HomepageHeader() {
+  const { isLoggedIn, setAppUser } = useAppSelector((state) => state.app);
+  const dispatch = useAppDispatch();
   const headerOptions = [
     "Signup",
     "Signin",
@@ -36,7 +40,7 @@ export function HomepageHeader() {
         navigate("/signin");
         break;
       case 2:
-        navigate("/signin");
+        dispatch(isLoggedInTrue(false));
         break;
 
       case 4:
@@ -70,17 +74,26 @@ export function HomepageHeader() {
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
 
           <Box sx={{ display: "flex", position: "absolute", right: 0 }}>
-            {headerOptions.map((page, index) => (
-              <Typography
-                mr={2}
-                ml={2}
-                textAlign="center"
-                style={{ cursor: "pointer" }}
-                onClick={() => redirectFn(index)}
-              >
-                {page}
-              </Typography>
-            ))}
+            {headerOptions.map((page, index) => {
+              if (isLoggedIn) {
+                if (index == 0 || index == 1) {
+                  return;
+                }
+              } else {
+                if (index == 2) return;
+              }
+              return (
+                <Typography
+                  mr={2}
+                  ml={2}
+                  textAlign="center"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => redirectFn(index)}
+                >
+                  {page}
+                </Typography>
+              );
+            })}
           </Box>
         </Toolbar>
       </Container>
