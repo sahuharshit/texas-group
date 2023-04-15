@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react";
 import {
   Button,
@@ -12,9 +13,49 @@ import { LoadingButton } from "@mui/lab";
 
 import LoginImage from "./loginImage.png";
 import { LoginForm, LoginIntro, Wrapper } from "./style";
+import { FetchUtils } from "../../utils/fetchUtils";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/store";
+import { isLoggedInTrue } from "../../redux/app/reducer";
+
+interface ISignin {
+  email: string;
+  password: string;
+}
+
+interface IReponse {
+  message: string;
+  success: boolean;
+  token?: string;
+}
 
 const SignIn = () => {
   const [loginPayload, setLoginPayload] = useState({ email: "", password: "" });
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+    let response = null;
+    try {
+      response = await FetchUtils.postRequest<ISignin, IReponse>(
+        "/login",
+        loginPayload
+      );
+
+      localStorage.setItem("token", response.token);
+      dispatch(isLoggedInTrue(true));
+      navigate("/");
+    } catch (e: unknown) {
+      if (!e?.success) {
+        toast(e?.message);
+      }
+    }
+
+    console.log("token generated", response);
+  }
 
   const handleFormChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -82,7 +123,9 @@ const SignIn = () => {
                 <LoadingButton
                   loading={false}
                   variant="contained"
-                  onClick={() => {}}
+                  onClick={(e) => {
+                    handleSubmit(e);
+                  }}
                   type="submit"
                 >
                   Login

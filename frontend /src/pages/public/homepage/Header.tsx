@@ -40,6 +40,7 @@ export function HomepageHeader() {
         navigate("/signin");
         break;
       case 2:
+        localStorage.removeItem("token");
         dispatch(isLoggedInTrue(false));
         break;
 

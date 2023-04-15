@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { LoginForm } from "./index.style";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import ReactQuill from "react-quill";
@@ -59,19 +59,6 @@ export function Contact() {
     <>
       <LoginForm item xs={6}>
         <div>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          ></ToastContainer>
-
           <Typography fontWeight={900} fontSize="2rem">
             Contact us Form
           </Typography>

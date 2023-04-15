@@ -8,7 +8,7 @@ const UserLogin = (req: Request | any, res: Response) => {
     email: req.body.email,
   }).then(function (user: any, err: any) {
     if (err) throw err;
-
+    console.log("__________user if exists", user, req.body);
     if (!user) {
       res.status(403).json({
         success: false,
@@ -29,7 +29,7 @@ const UserLogin = (req: Request | any, res: Response) => {
             id: user._id,
             role: "user",
           };
-          const token = jwt.sign(payload, process.env.JWT_KEY);
+          const token = jwt.sign(payload, "secretkey");
           User.findById(user._id, function (err, result) {
             res.status(200).send({
               success: true,
