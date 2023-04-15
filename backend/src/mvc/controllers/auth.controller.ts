@@ -28,6 +28,7 @@ const UserLogin = (req: Request | any, res: Response) => {
           const payload = {
             id: user._id,
             role: "user",
+            clientInfo: user,
           };
           const token = jwt.sign(payload, "secretkey");
           User.findById(user._id, function (err, result) {

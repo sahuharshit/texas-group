@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAPIResponse } from "../../constants/interface";
+import { IClient } from "../clients/thunk";
 
 const initialState = {
   isLoggedIn: false,
-  setAppUser: {},
+  setAppUser: {} as IClient,
 };
 
 const app = createSlice({
@@ -14,7 +15,7 @@ const app = createSlice({
       state.isLoggedIn = payload;
     },
 
-    setAppUser: (state, { payload }) => {
+    setAppUser: (state, { payload }: PayloadAction<IClient>) => {
       state.setAppUser = payload;
     },
   },

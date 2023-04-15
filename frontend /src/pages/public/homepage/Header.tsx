@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,12 +16,23 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { isLoggedInTrue } from "../../../redux/app/reducer";
+import { get, size } from "lodash";
+import { getInfoFromToken } from "../../../utils/infoFromToken";
+import { IClient } from "../../../redux/clients/thunk";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export function HomepageHeader() {
   const { isLoggedIn, setAppUser } = useAppSelector((state) => state.app);
+  const [user, setUser] = React.useState<IClient | null>(null);
+
   const dispatch = useAppDispatch();
+  React.useEffect(() => {
+    const userInfo = getInfoFromToken();
+    if (userInfo) {
+      setUser(userInfo.clientInfo);
+    }
+  }, []);
   const headerOptions = [
     "Signup",
     "Signin",
@@ -42,6 +54,7 @@ export function HomepageHeader() {
       case 2:
         localStorage.removeItem("token");
         dispatch(isLoggedInTrue(false));
+        navigate("/signin");
         break;
 
       case 4:
@@ -76,7 +89,7 @@ export function HomepageHeader() {
 
           <Box sx={{ display: "flex", position: "absolute", right: 0 }}>
             {headerOptions.map((page, index) => {
-              if (isLoggedIn) {
+              if (isLoggedIn || !!localStorage.getItem("token")) {
                 if (index == 0 || index == 1) {
                   return;
                 }
@@ -95,6 +108,20 @@ export function HomepageHeader() {
                 </Typography>
               );
             })}
+
+            {size(user) > 0 && (
+              <Typography
+                fontSize={"1.2rem"}
+                fontWeight="900"
+                style={{
+                  position: "relative",
+                  left: "10rem",
+                }}
+              >
+                Hi, {`\t`}
+                {get(user, `name`, "")}
+              </Typography>
+            )}
           </Box>
         </Toolbar>
       </Container>

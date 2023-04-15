@@ -10,7 +10,7 @@ const initialState: IClientState = {
   clientList: [],
 };
 
-const client = createSlice({
+const clients = createSlice({
   name: "clients",
   initialState,
   reducers: {},
@@ -24,5 +24,5 @@ const client = createSlice({
   },
 });
 
-export const {} = client.actions;
-export default client.reducer;
+export const {} = clients.actions;
+export default clients.reducer;

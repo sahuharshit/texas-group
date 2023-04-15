@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   FormControl,
@@ -60,6 +60,11 @@ const Signup = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
   const handleFormChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {

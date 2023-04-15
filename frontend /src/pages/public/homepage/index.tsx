@@ -1,6 +1,9 @@
 import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { getEvents } from "../../../redux/events/thunk";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { FetchUtils } from "../../../utils/fetchUtils";
 import { HeroBanner } from "./banner/Banner";
 import { HomepageEventCard } from "./card/EventCard";
 import { eventCardsData } from "./card/eventCardData";
@@ -11,7 +14,9 @@ import { TrendingCategories } from "./trending";
 
 export function Homepage() {
   const [locationData, setLocationData] = useState(null);
-
+  const dispatch = useAppDispatch();
+  const { eventList } = useAppSelector((state) => state.event);
+  const eventCardDataLength = eventCardsData.length;
   useEffect(() => {
     const fetchLocationData = async () => {
       try {
@@ -25,6 +30,10 @@ export function Homepage() {
       }
     };
     fetchLocationData();
+  }, []);
+
+  useEffect(() => {
+    dispatch(getEvents());
   }, []);
 
   return (
@@ -48,16 +57,18 @@ export function Homepage() {
 
       <TrendingCategories />
       <CardsWrapper>
-        {eventCardsData.map((data) => {
+        {eventList.map((data, i) => {
           return (
             <span style={{ margin: "30px 10px" }}>
               <HomepageEventCard
-                image={data.image}
-                title={data.title}
-                time={data.time}
-                followers={data.followers}
-                category={data.category}
-                largeDescription={data.largeDescription}
+                image={eventCardsData[i % eventCardDataLength].image}
+                title={data.event_name}
+                time={data.event_date}
+                followers={eventCardsData[i % eventCardDataLength].followers}
+                category={eventCardsData[i % eventCardDataLength].category}
+                largeDescription={
+                  eventCardsData[i % eventCardDataLength].largeDescription
+                }
               />
             </span>
           );

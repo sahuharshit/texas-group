@@ -4,8 +4,6 @@ import { FetchUtils } from "../../utils/fetchUtils";
 export interface IClient {
   name: string;
   email: string;
-  mobile: string;
-
   createdAt: string;
   updatedAt: string;
   subscribedEvents: string[];

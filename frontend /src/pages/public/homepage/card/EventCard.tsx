@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -15,7 +16,12 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
-
+import { AppRegistrationOutlined, JoinFullTwoTone } from "@mui/icons-material";
+import axios from "axios";
+import { useAppSelector } from "../../../../redux/store";
+import { toast } from "react-toastify";
+import { getInfoFromToken } from "../../../../utils/infoFromToken";
+import { IClient } from "../../../../redux/clients/thunk";
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -42,10 +48,30 @@ interface IHomepageEventCard {
 
 export function HomepageEventCard(props: IHomepageEventCard) {
   const { category, followers, image, time, title, largeDescription } = props;
+  const { setAppUser, isLoggedIn } = useAppSelector((state) => state.app);
 
   const navigate = useNavigate();
   function redirectToEventDetailsPage() {
     navigate("/events/details/1");
+  }
+
+  async function handleEventRegistration() {
+    if (!!setAppUser) {
+      axios({
+        method: "POST",
+        url: "https://formspree.io/f/myyaboad",
+        data: {
+          email: setAppUser.email,
+          message: `Email: ${setAppUser.email} has registered for the event ${title} @ ${time}`,
+        },
+      })
+        .then((response) => {
+          toast(`Thank you, you are subscribed to the event ${name}`);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
   }
   return (
     <Card
@@ -56,13 +82,8 @@ export function HomepageEventCard(props: IHomepageEventCard) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {title[0].toUpperCase()}
           </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
         }
         title={title}
         subheader={time}
@@ -80,6 +101,17 @@ export function HomepageEventCard(props: IHomepageEventCard) {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
+        {isLoggedIn && (
+          <IconButton
+            aria-label="share"
+            onClick={async (e) => {
+              e.stopPropagation();
+              handleEventRegistration();
+            }}
+          >
+            <AppRegistrationOutlined />
+          </IconButton>
+        )}
       </CardActions>
     </Card>
   );

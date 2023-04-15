@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   FormControl,
@@ -17,7 +17,7 @@ import { FetchUtils } from "../../utils/fetchUtils";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/store";
-import { isLoggedInTrue } from "../../redux/app/reducer";
+import { isLoggedInTrue, setAppUser } from "../../redux/app/reducer";
 
 interface ISignin {
   email: string;
@@ -47,6 +47,7 @@ const SignIn = () => {
 
       localStorage.setItem("token", response.token);
       dispatch(isLoggedInTrue(true));
+      dispatch(setAppUser(response));
       navigate("/");
     } catch (e: unknown) {
       if (!e?.success) {
@@ -57,6 +58,11 @@ const SignIn = () => {
     console.log("token generated", response);
   }
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
   const handleFormChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
