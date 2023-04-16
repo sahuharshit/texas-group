@@ -35,7 +35,6 @@
     "redux": "^4.2.1",
     "redux-tooltip": "^0.7.3",
     "slick-carousel": "^1.8.1",
-    "talkjs": "^0.15.9",
     "yup": "^1.0.2"
   },
   "devDependencies": {
