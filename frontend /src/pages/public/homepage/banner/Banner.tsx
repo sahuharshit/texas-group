@@ -46,7 +46,7 @@ export function HeroBanner() {
                 src={imageUrl}
                 style={{ zIndex: 33 }}
                 alt="Banner"
-                height={800}
+                height={500}
               />
             </div>
           ))}

@@ -58,4 +58,14 @@ const deleteEvent = async (req: Request, res: Response) => {
   }
 };
 
-export { getAllEvents, createEvent, deleteEvent };
+const getEventById = async (req: Request, res: Response) => {
+  try {
+    const eventId = req.params.id;
+    const event = await Events.findOne({ _id: eventId });
+    res.send(event);
+  } catch (err) {
+    return err;
+  }
+};
+
+export { getAllEvents, createEvent, deleteEvent, getEventById };

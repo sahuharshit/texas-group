@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ExpandCircleDownOutlined } from "@mui/icons-material";
 import {
   Accordion,
@@ -6,10 +7,43 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import { faker } from "@faker-js/faker";
+
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Slider from "react-slick";
+import { FetchUtils } from "../../../utils/fetchUtils";
 import { EnhancedSlider, SliderWrapper } from "../homepage/banner/banner.style";
 import { CustomBox } from "./index.style";
+import ReactLoading from "react-loading";
+import { IEventCard } from "../../../components/card";
+import { IEvent } from "../../../constants/interface";
+import { toast } from "react-toastify";
+import { useAppSelector } from "../../../redux/store";
+import axios from "axios";
+import { getInfoFromToken } from "../../../utils/infoFromToken";
+
 export function EventDetail() {
+  const [loading, setLoading] = useState(true);
+  const [eventDetails, setEventDetails] = useState<IEvent>();
+  const { id } = useParams();
+
+  async function getEvents(id: string) {
+    const response = await FetchUtils.getRequest(`/events/${id}`);
+
+    setLoading(false);
+    return response;
+  }
+  useEffect(() => {
+    async function fetchData() {
+      const eventDetails = await getEvents(id as string);
+      setEventDetails(eventDetails as any);
+    }
+    fetchData();
+  }, [id]);
+
+  const setAppUser = getInfoFromToken()?.clientInfo;
+  console.log("set App uSer", setAppUser);
   const settings = {
     dots: true,
     infinite: true,
@@ -36,10 +70,55 @@ export function EventDetail() {
   };
 
   const bannerImages = [
-    "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F396738279%2F166312578381%2F1%2Foriginal.20221120-053822?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C2160%2C1080&s=47c89ba1e76ec57b8f22f8e913aeb5dd",
-    "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F431850979%2F5609178309%2F1%2Foriginal.20230125-111307?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C882%2C441&s=0d3c8482d2fe97f4843dccd2c603d698",
+    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80",
+    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3000&q=80",
+    "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F485627899%2F1198813429483%2F1%2Foriginal.20230405-034510?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C51%2C2500%2C1250&s=6862e207ac508f914a9458903fab6a00",
+    "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F486741749%2F1471147113683%2F1%2Foriginal.20230406-091529?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C960%2C480&s=a15ca60072bea3aa6e0855f2b161beda",
+    "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F481188509%2F1199014074233%2F1%2Foriginal.20230330-062019?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C2160%2C1080&s=adbf2ece687dd4b93bb9076c3c36aa60",
+    "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F486741749%2F1471147113683%2F1%2Foriginal.20230406-091529?w=940&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C960%2C480&s=a15ca60072bea3aa6e0855f2b161beda",
   ];
 
+  if (loading) {
+    return (
+      <ReactLoading
+        type={"bubbles"}
+        color={"#d3d3d"}
+        height={"20%"}
+        width={"20%"}
+      />
+    );
+  }
+
+  async function handleRegistrationButton() {
+    if (!localStorage.getItem("token")) {
+      toast("please login to register");
+      return;
+    }
+
+    const res = await FetchUtils.postRequest(
+      `/user/events?id=${setAppUser.id}&event_id=${id}`,
+      {}
+    );
+
+    if (res) {
+      axios({
+        method: "POST",
+        url: "https://formspree.io/f/myyaboad",
+        data: {
+          email: setAppUser.email,
+          message: `Email: ${setAppUser.email} has registered for the event ${eventDetails?.event_name} @ ${eventDetails?.event_date}`,
+        },
+      })
+        .then((response) => {
+          toast(`Thank you, you are subscribed to the event ${name}`);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+  }
+
+  console.log("event details", eventDetails);
   return (
     <>
       <SliderWrapper>
@@ -59,19 +138,17 @@ export function EventDetail() {
 
       <CustomBox>
         <span>
+          <br />
           <Typography fontWeight={600} lineHeight={"2.5rem"} fontSize={"1rem"}>
-            April 16
+            {faker.date.past().toString()}
           </Typography>
 
           <Typography fontWeight={800} lineHeight={"2.5rem"} fontSize={"2rem"}>
-            Begin your Tai Chi journey: Traditional Movements for Health /
-            Rejuvenation
+            {eventDetails?.event_name}
           </Typography>
 
           <Typography fontWeight={600} lineHeight={"2.5rem"} fontSize={"1rem"}>
-            Learning even basic Tai Chi skills can promote balance, calmness,
-            and mental focus. Every Sunday: 11am EST/4pm GMT [Class is 30 min
-            long]
+            {faker.lorem.paragraph()}
           </Typography>
           <br />
           <br />
@@ -140,9 +217,16 @@ export function EventDetail() {
             corrupti, voluptatum repudiandae autem consequuntur?
           </Typography>
         </span>
-        <span>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <Button
             variant="contained"
+            onClick={handleRegistrationButton}
             style={{
               fontSize: "2.5rem",
               padding: "1rem 2.5rem",
@@ -153,7 +237,7 @@ export function EventDetail() {
           >
             Register
           </Button>{" "}
-        </span>
+        </div>
       </CustomBox>
     </>
   );

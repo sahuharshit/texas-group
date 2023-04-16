@@ -6,6 +6,7 @@ import { EventPage } from "../pages/events";
 import { EventForm } from "../pages/events/createEvent";
 import { NotFoundPage } from "../pages/notfound";
 import { Contact } from "../pages/public/contact";
+import { CreateEvent } from "../pages/public/createEvent";
 import { EventDetail } from "../pages/public/eventdetails";
 import { Homepage } from "../pages/public/homepage";
 import { HomepageFooter } from "../pages/public/homepage/footer";
@@ -52,8 +53,18 @@ const allRoutes: RouteObject[] = [
     path: "/contact",
     element: (
       <>
-        <HomepageHeader></HomepageHeader>
+        <HomepageHeader />
         <Contact />
+        <HomepageFooter />
+      </>
+    ),
+  },
+  {
+    path: "/createEvent",
+    element: (
+      <>
+        <HomepageHeader />
+        <CreateEvent />
         <HomepageFooter />
       </>
     ),

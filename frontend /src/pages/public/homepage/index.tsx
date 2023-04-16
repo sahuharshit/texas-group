@@ -61,6 +61,7 @@ export function Homepage() {
           return (
             <span style={{ margin: "30px 10px" }}>
               <HomepageEventCard
+                id={data._id}
                 image={eventCardsData[i % eventCardDataLength].image}
                 title={data.event_name}
                 time={data.event_date}

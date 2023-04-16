@@ -19,6 +19,7 @@ import { isLoggedInTrue } from "../../../redux/app/reducer";
 import { get, size } from "lodash";
 import { getInfoFromToken } from "../../../utils/infoFromToken";
 import { IClient } from "../../../redux/clients/thunk";
+import { toast } from "react-toastify";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -38,7 +39,6 @@ export function HomepageHeader() {
     "Signin",
     "Logout",
     "Create an Event",
-    "Help",
     "Contact US",
   ];
 
@@ -57,15 +57,21 @@ export function HomepageHeader() {
         navigate("/signin");
         break;
 
+      case 3:
+        if (localStorage.getItem("token")) {
+          navigate("/createEvent");
+        } else {
+          toast("You need to be logged in to create an event");
+        }
+        break;
       case 4:
-      case 5:
         navigate("/contact");
     }
   }
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography

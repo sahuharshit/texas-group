@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -38,6 +37,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 interface IHomepageEventCard {
+  id: string;
   image: string;
   title: string;
   time: string;
@@ -47,22 +47,26 @@ interface IHomepageEventCard {
 }
 
 export function HomepageEventCard(props: IHomepageEventCard) {
-  const { category, followers, image, time, title, largeDescription } = props;
+  const { category, followers, image, time, title, largeDescription, id } =
+    props;
   const { setAppUser, isLoggedIn } = useAppSelector((state) => state.app);
 
+  const infoFromToken = getInfoFromToken();
+
+  const clientInfo = infoFromToken?.clientInfo || {};
   const navigate = useNavigate();
-  function redirectToEventDetailsPage() {
-    navigate("/events/details/1");
+  function redirectToEventDetailsPage(eventId: string) {
+    navigate(`/events/details/${eventId}`);
   }
 
   async function handleEventRegistration() {
-    if (!!setAppUser) {
+    if (clientInfo) {
       axios({
         method: "POST",
         url: "https://formspree.io/f/myyaboad",
         data: {
-          email: setAppUser.email,
-          message: `Email: ${setAppUser.email} has registered for the event ${title} @ ${time}`,
+          email: clientInfo.email,
+          message: `Email: ${clientInfo.email} has registered for the event ${title} @ ${time}`,
         },
       })
         .then((response) => {
@@ -75,7 +79,7 @@ export function HomepageEventCard(props: IHomepageEventCard) {
   }
   return (
     <Card
-      onClick={redirectToEventDetailsPage}
+      onClick={() => redirectToEventDetailsPage(id)}
       sx={{ maxWidth: 345 }}
       style={{ height: 450 }}
     >

@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { FetchUtils } from "../../utils/fetchUtils";
 
 export interface IClient {
+  _id: string;
   name: string;
   email: string;
   createdAt: string;

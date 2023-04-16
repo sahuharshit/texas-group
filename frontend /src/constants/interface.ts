@@ -1,4 +1,5 @@
 export interface IEvent {
+  _id: string;
   event_name: string;
   event_date: string;
   event_location: string;

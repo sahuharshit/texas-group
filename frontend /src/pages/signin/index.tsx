@@ -111,7 +111,7 @@ const SignIn = () => {
               </FormControl>
               <FormControl fullWidth>
                 <FormLabel htmlFor="password" className="password-label">
-                  Password <span>Forget Password?</span>
+                  Password
                 </FormLabel>
                 <TextField
                   size="small"
