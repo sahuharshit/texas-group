@@ -8,7 +8,7 @@ Tech Stack Used
 6. FormSpree
 7. Joi 
 8. RestAPI implementation using nodejs 
-9. Material UI
+9. Material UI - 2
 10. Emotion UI for Css-in-js
 11. JWT 
 12. Hashing and Salting for Authentication 
