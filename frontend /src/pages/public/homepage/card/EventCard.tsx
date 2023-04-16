@@ -14,7 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { AppRegistrationOutlined, JoinFullTwoTone } from "@mui/icons-material";
 import axios from "axios";
 import { useAppSelector } from "../../../../redux/store";
@@ -99,13 +99,37 @@ export function HomepageEventCard(props: IHomepageEventCard) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton
+          aria-label="add to favorites"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <FavoriteIcon
+            onClick={() => {
+              const presentIdsInLocalStorage =
+                localStorage.getItem(clientInfo.id) ?? "[]";
+              const parsedIds = JSON.parse(presentIdsInLocalStorage);
+              if (!parsedIds.includes(id)) {
+                parsedIds.push(id);
+                localStorage.setItem(clientInfo.id, JSON.stringify(parsedIds));
+              }
+            }}
+          />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+        <IconButton
+          aria-label="share"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <ShareIcon
+            onClick={(e) => {
+              window.location.href = "https://wa.me/7977113822";
+            }}
+          />
         </IconButton>
-        {isLoggedIn && (
+        {clientInfo && (
           <IconButton
             aria-label="share"
             onClick={async (e) => {

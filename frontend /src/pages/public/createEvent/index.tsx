@@ -18,6 +18,8 @@ export function CreateEvent() {
   const [formPayload, setformPayload] = useState({
     event_name: "",
     event_location: "",
+    event_description: "",
+    event_longDescription: "",
   });
 
   const [dateValue, setDateValue] = useState<Dayjs | null>(dayjs("2022-04-17"));
@@ -65,7 +67,7 @@ export function CreateEvent() {
 
   return (
     <>
-      <LoginForm item xs={6}>
+      <LoginForm item>
         <div>
           <Typography fontWeight={900} fontSize="2rem">
             Create New Event
@@ -96,6 +98,32 @@ export function CreateEvent() {
                   name="event_location"
                   autoComplete="event_location"
                   value={formPayload.event_location}
+                  onChange={handleFormChange}
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <FormLabel htmlFor="email">Event Name</FormLabel>
+                <TextField
+                  size="small"
+                  required
+                  fullWidth
+                  id="event_description"
+                  name="event_description"
+                  autoComplete="event_description"
+                  value={formPayload.event_description}
+                  onChange={handleFormChange}
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <FormLabel htmlFor="email">Event Name</FormLabel>
+                <TextField
+                  size="small"
+                  required
+                  fullWidth
+                  id="event_longDescription"
+                  name="event_longDescription"
+                  autoComplete="event_longDescription"
+                  value={formPayload.event_longDescription}
                   onChange={handleFormChange}
                 />
               </FormControl>

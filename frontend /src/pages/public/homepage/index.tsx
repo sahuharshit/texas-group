@@ -68,7 +68,9 @@ export function Homepage() {
                 followers={eventCardsData[i % eventCardDataLength].followers}
                 category={eventCardsData[i % eventCardDataLength].category}
                 largeDescription={
-                  eventCardsData[i % eventCardDataLength].largeDescription
+                  data.event_longDescription
+                    ? data.event_longDescription
+                    : eventCardsData[i % eventCardDataLength].largeDescription
                 }
               />
             </span>

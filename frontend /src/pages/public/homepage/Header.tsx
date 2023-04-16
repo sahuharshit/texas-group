@@ -34,12 +34,15 @@ export function HomepageHeader() {
       setUser(userInfo.clientInfo);
     }
   }, []);
+
   const headerOptions = [
     "Signup",
     "Signin",
     "Logout",
     "Create an Event",
     "Contact US",
+    "Favorites",
+    "My Events",
   ];
 
   const navigate = useNavigate();
@@ -51,6 +54,7 @@ export function HomepageHeader() {
       case 1:
         navigate("/signin");
         break;
+
       case 2:
         localStorage.removeItem("token");
         dispatch(isLoggedInTrue(false));
@@ -66,6 +70,14 @@ export function HomepageHeader() {
         break;
       case 4:
         navigate("/contact");
+        break;
+
+      case 5:
+        navigate("/favorites");
+        break;
+
+      case 6:
+        navigate("/myevents");
     }
   }
 
@@ -78,7 +90,8 @@ export function HomepageHeader() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
             sx={{
               mr: 2,
               fontFamily: "monospace",
@@ -100,7 +113,7 @@ export function HomepageHeader() {
                   return;
                 }
               } else {
-                if (index == 2) return;
+                if (index == 2 || index == 6) return;
               }
               return (
                 <Typography

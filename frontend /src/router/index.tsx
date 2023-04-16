@@ -8,9 +8,11 @@ import { NotFoundPage } from "../pages/notfound";
 import { Contact } from "../pages/public/contact";
 import { CreateEvent } from "../pages/public/createEvent";
 import { EventDetail } from "../pages/public/eventdetails";
+import { Favorites } from "../pages/public/favorites";
 import { Homepage } from "../pages/public/homepage";
 import { HomepageFooter } from "../pages/public/homepage/footer";
 import { HomepageHeader } from "../pages/public/homepage/Header";
+import { MyEvents } from "../pages/public/myevents";
 import { SignIn } from "../pages/signin";
 import { Signup } from "../pages/signup";
 
@@ -65,6 +67,26 @@ const allRoutes: RouteObject[] = [
       <>
         <HomepageHeader />
         <CreateEvent />
+        <HomepageFooter />
+      </>
+    ),
+  },
+  {
+    path: "/myevents",
+    element: (
+      <>
+        <HomepageHeader />
+        <MyEvents />
+        <HomepageFooter />
+      </>
+    ),
+  },
+  {
+    path: "/favorites",
+    element: (
+      <>
+        <HomepageHeader />
+        <Favorites />
         <HomepageFooter />
       </>
     ),

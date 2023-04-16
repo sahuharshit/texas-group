@@ -3,20 +3,18 @@ import { Grid } from "@mui/material";
 
 export const Wrapper = styled("div")`
   box-sizing: border-box;
-
   display: flex;
   align-items: center;
 `;
 
 export const LoginForm = styled(Grid)`
-  margin-top: 10rem;
+  margin-top: 5rem;
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
   form {
-    width: 40rem;
-    height: 20rem;
+    width: 30rem;
     padding: 24px;
     display: flex;
     flex-direction: column;
